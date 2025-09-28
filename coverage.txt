@@ -1,0 +1,32 @@
+Compiling 40 files with Solc 0.8.30
+Solc 0.8.30 finished in 4.18s
+Compiler run successful!
+Analysing contracts...
+Running tests...
+
+Ran 8 tests for test/DeployAndUpgradeTest.t.sol:DeployAndUpgradeTest
+[PASS] testBox1AuthorizeUpgradeOnlyOwner() (gas: 1001464)
+[PASS] testBox1GetValue() (gas: 12818)
+[PASS] testBox1GetVersion() (gas: 10700)
+[PASS] testBox2AuthorizeUpgradeOnlyOwner() (gas: 2033909)
+[PASS] testBox2CompleteFlow() (gas: 1174592)
+[PASS] testBox2Initialize() (gas: 1182947)
+[PASS] testRevertSetValueBeforeUpgrade() (gas: 13473)
+[PASS] testUpgrade() (gas: 1051886)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 4.03ms (6.90ms CPU time)
+
+Ran 1 test suite in 13.10ms (4.03ms CPU time): 8 tests passed, 0 failed, 0 skipped (8 total tests)
+
+╭-------------------------+-----------------+-----------------+---------------+----------------╮
+| File                    | % Lines         | % Statements    | % Branches    | % Funcs        |
++==============================================================================================+
+| script/DeployBox.s.sol  | 88.89% (8/9)    | 100.00% (10/10) | 100.00% (0/0) | 50.00% (1/2)   |
+|-------------------------+-----------------+-----------------+---------------+----------------|
+| script/UpgradeBox.s.sol | 42.86% (6/14)   | 33.33% (5/15)   | 100.00% (0/0) | 50.00% (1/2)   |
+|-------------------------+-----------------+-----------------+---------------+----------------|
+| src/Box1.sol            | 100.00% (10/10) | 100.00% (5/5)   | 100.00% (0/0) | 100.00% (5/5)  |
+|-------------------------+-----------------+-----------------+---------------+----------------|
+| src/Box2.sol            | 100.00% (12/12) | 100.00% (6/6)   | 100.00% (0/0) | 100.00% (6/6)  |
+|-------------------------+-----------------+-----------------+---------------+----------------|
+| Total                   | 80.00% (36/45)  | 72.22% (26/36)  | 100.00% (0/0) | 86.67% (13/15) |
+╰-------------------------+-----------------+-----------------+---------------+----------------╯
