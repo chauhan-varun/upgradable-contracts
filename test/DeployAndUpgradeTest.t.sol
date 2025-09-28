@@ -50,22 +50,25 @@ contract DeployAndUpgradeTest is Test {
     function testBox2Initialize() public {
         // Deploy a new Box2 implementation
         Box2 box2Implementation = new Box2();
-        
+
         // Deploy proxy with initialization call
         bytes memory initData = abi.encodeCall(Box2.initialize, ());
-        ERC1967Proxy newProxy = new ERC1967Proxy(address(box2Implementation), initData);
-        
+        ERC1967Proxy newProxy = new ERC1967Proxy(
+            address(box2Implementation),
+            initData
+        );
+
         // Verify initialization worked
         Box2 proxiedBox2 = Box2(address(newProxy));
         assertEq(proxiedBox2.getVersion(), 2);
         assertEq(proxiedBox2.getValue(), 0);
-        
+
         // setValue is public in Box2, so anyone can call it
         // Test that both owner and non-owner can set value
         vm.prank(nonOwner);
         proxiedBox2.setValue(100);
         assertEq(proxiedBox2.getValue(), 100);
-        
+
         // Owner can also set value
         proxiedBox2.setValue(200);
         assertEq(proxiedBox2.getValue(), 200);
@@ -76,15 +79,15 @@ contract DeployAndUpgradeTest is Test {
         // First upgrade to Box2
         Box2 box2 = new Box2();
         upgrader.upgradeBox(proxy, address(box2));
-        
+
         // Create another Box2 implementation for the upgrade
         Box2 anotherBox2 = new Box2();
-        
+
         // Non-owner should not be able to upgrade
         vm.prank(nonOwner);
         vm.expectRevert();
         upgrader.upgradeBox(proxy, address(anotherBox2));
-        
+
         // Owner should be able to upgrade (this tests _authorizeUpgrade)
         upgrader.upgradeBox(proxy, address(anotherBox2));
     }
@@ -94,13 +97,16 @@ contract DeployAndUpgradeTest is Test {
         // Deploy fresh Box2 with proper initialization
         Box2 box2Implementation = new Box2();
         bytes memory initData = abi.encodeCall(Box2.initialize, ());
-        ERC1967Proxy newProxy = new ERC1967Proxy(address(box2Implementation), initData);
+        ERC1967Proxy newProxy = new ERC1967Proxy(
+            address(box2Implementation),
+            initData
+        );
         Box2 proxiedBox2 = Box2(address(newProxy));
-        
+
         // Test all functions for complete coverage
         assertEq(proxiedBox2.getValue(), 0);
         assertEq(proxiedBox2.getVersion(), 2);
-        
+
         proxiedBox2.setValue(999);
         assertEq(proxiedBox2.getValue(), 999);
     }
@@ -109,12 +115,12 @@ contract DeployAndUpgradeTest is Test {
     function testBox1AuthorizeUpgradeOnlyOwner() public {
         // Create implementation for upgrade
         Box1 newBox1Implementation = new Box1();
-        
+
         // Non-owner should not be able to upgrade
         vm.prank(nonOwner);
         vm.expectRevert();
         upgrader.upgradeBox(proxy, address(newBox1Implementation));
-        
+
         // Owner should be able to upgrade (this tests Box1's _authorizeUpgrade)
         upgrader.upgradeBox(proxy, address(newBox1Implementation));
     }
